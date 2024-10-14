@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_app/model/dto/dashboard/Categories.dart';
 import 'package:food_app/provider/api_provider.dart';
 import 'package:food_app/screen/meal_detail_screen.dart';
+import 'package:food_app/screen/meal_list_screen.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
@@ -64,14 +65,15 @@ class DashboardScreen extends StatelessWidget {
                             focusNode: focusNode,
                             decoration: InputDecoration(
                               suffixIcon: IconButton(onPressed: () {
-                                  print(textEditingController.text);
-                              }, icon: Icon(Icons.search)),
-                              border: OutlineInputBorder(),
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => MealDetailScreen(id: provider.searchMeals?.where((element) => element.strMeal==textEditingController.text,).first.idMeal),));
+
+                              }, icon: const Icon(Icons.search)),
+                              border: const OutlineInputBorder(),
                               hintText: 'Search any meal'
                             ),
                           );
                         },
-                        onSelected: (option) => print(option),
+                        onSelected: (option) => Navigator.of(context).push(MaterialPageRoute(builder: (context) => MealDetailScreen(id: provider.searchMeals?.where((element) => element.strMeal==option,).first.idMeal),)),
                         ),
                         const Gap(20.0),
                         const Text('Categories',style: TextStyle(
@@ -89,21 +91,24 @@ class DashboardScreen extends StatelessWidget {
                             itemCount: value.categories?.length??0,
                             itemBuilder: (context, index) => Padding(
                               padding: index<value.categories!.length?const EdgeInsets.only(right: 8.0):EdgeInsets.zero,
-                              child: Column(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 50.0,
-                                    backgroundColor: Colors.grey.shade300,
-                                    child: Image.network(value.categories?[index].strCategoryThumb??"" ,width: 75, fit: BoxFit.fill,),
-                                  ),
-                                  Text(value.categories?[index].strCategory??"No name found",
-                                    style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black45
+                              child: GestureDetector(
+                                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => MealListScreen(category: value.categories![index].strCategory!),)),
+                                child: Column(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 50.0,
+                                      backgroundColor: Colors.grey.shade300,
+                                      child: Image.network(value.categories?[index].strCategoryThumb??"" ,width: 75, fit: BoxFit.fill,),
                                     ),
-                                  )
-                                ],
+                                    Text(value.categories?[index].strCategory??"No name found",
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black45
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -136,7 +141,7 @@ class DashboardScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     ClipRRect(
-                                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(5.0),topRight:Radius.circular(5.0) ),
+                                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(10.0),topRight:Radius.circular(10.0) ),
                                         child: Image.network(provider.meals?[index].strMealThumb??"",width: constraints.maxWidth,height: constraints.maxHeight*0.7,fit: BoxFit.fill,)
                                     ),
                                     const Gap(5.0),
@@ -157,7 +162,8 @@ class DashboardScreen extends StatelessWidget {
                                 ),
                               ),
                             );
-                          },)
+                          },
+                        )
 
                       ],
                     ),

@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:food_app/model/dto/category/MealCategory.dart';
+import 'package:food_app/model/dto/dashboard/Meals.dart';
 import 'package:food_app/model/dto/dashboard/Categories.dart';
 import 'package:food_app/model/dto/dashboard/FoodCategory.dart';
 import 'package:food_app/model/dto/dashboard/RandomFood.dart';
 import 'package:food_app/model/dto/dashboard/SearchMeal.dart';
 import 'package:http/http.dart' as http;
 
+import '../model/dto/category/Meals.dart';
 import '../model/dto/dashboard/Meals.dart';
 class ApiClient{
   static const String _baseUrl = 'https://www.themealdb.com/api/json/v1/1';
@@ -60,6 +63,21 @@ class ApiClient{
       print(data);
       print('------------------------Request------------------------');
       return SearchMeal.fromJson(data).meals;
+    }else{
+      throw Exception(response.body);
+    }
+  }
+
+  static Future<List<Meal>?> searchMealByCategory(String query) async {
+    final response= await http.get(Uri.parse('$_baseUrl/filter.php?c=$query'));
+    final data=json.decode(response.body);
+    print('------------------------Request------------------------');
+    print(response.request.toString());
+
+    if(response.statusCode == 200){
+      print(data);
+      print('------------------------Request------------------------');
+      return MealCategory.fromJson(data).meals;
     }else{
       throw Exception(response.body);
     }
