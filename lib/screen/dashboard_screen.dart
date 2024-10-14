@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/model/dto/dashboard/Categories.dart';
 import 'package:food_app/provider/api_provider.dart';
+import 'package:food_app/screen/meal_detail_screen.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
@@ -126,31 +127,34 @@ class DashboardScreen extends StatelessWidget {
                           ),
                           itemCount: provider.meals?.length??0,
                           itemBuilder: (context, index) {
-                            return Card(
-                              color: Colors.grey.shade100,
-                              elevation: 5.0,
-                              child: LayoutBuilder(builder: (context, constraints) => Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(5.0),topRight:Radius.circular(5.0) ),
-                                      child: Image.network(provider.meals?[index].strMealThumb??"",width: constraints.maxWidth,height: constraints.maxHeight*0.7,fit: BoxFit.fill,)
-                                  ),
-                                  const Gap(5.0),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                    child: Text(provider.meals?[index].strMeal??"No name found",
-                                      style: const TextStyle(
-                                        color: Colors.black87,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
+                            return GestureDetector(
+                              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => MealDetailScreen(id: provider.meals?[index].idMeal??"0"),)),
+                              child: Card(
+                                color: Colors.grey.shade100,
+                                elevation: 5.0,
+                                child: LayoutBuilder(builder: (context, constraints) => Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(5.0),topRight:Radius.circular(5.0) ),
+                                        child: Image.network(provider.meals?[index].strMealThumb??"",width: constraints.maxWidth,height: constraints.maxHeight*0.7,fit: BoxFit.fill,)
                                     ),
-                                  )
-                                ],
-                              ),
+                                    const Gap(5.0),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                      child: Text(provider.meals?[index].strMeal??"No name found",
+                                        style: const TextStyle(
+                                          color: Colors.black87,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                ),
                               ),
                             );
                           },)

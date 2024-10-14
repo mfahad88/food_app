@@ -49,4 +49,19 @@ class ApiClient{
       throw Exception(response.body);
     }
   }
+
+  static Future<List<Meals>?> searchMealById(String query) async {
+    final response= await http.get(Uri.parse('$_baseUrl/lookup.php?i=$query'));
+    final data=json.decode(response.body);
+    print('------------------------Request------------------------');
+    print(response.request.toString());
+
+    if(response.statusCode == 200){
+      print(data);
+      print('------------------------Request------------------------');
+      return SearchMeal.fromJson(data).meals;
+    }else{
+      throw Exception(response.body);
+    }
+  }
 }

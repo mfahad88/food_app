@@ -16,6 +16,7 @@ class ApiProvider extends ChangeNotifier{
   List<Categories>? categories=List.empty(growable: true);
   List<Meals>? meals=List.empty(growable: true);
   List<Meals>? searchMeals=List.empty(growable: true);
+  List<Meals>? mealById= List.empty(growable: true);
   Future<void> fetchCategory() async {
 
     categories=await ApiClient.fetchCategory();
@@ -36,6 +37,13 @@ class ApiProvider extends ChangeNotifier{
 
   Future<void> fetchsearchMeals(String query) async {
     searchMeals = await ApiClient.searchMeal(query);
+    notifyListeners();
+  }
+
+  Future<void> fetchmealById(String id) async {
+    _isLoading=true;
+    mealById = await ApiClient.searchMealById(id);
+    _isLoading=false;
     notifyListeners();
   }
 }
