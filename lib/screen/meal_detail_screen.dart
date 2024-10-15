@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/model/addCart/Cart.dart';
 import 'package:food_app/provider/api_provider.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+
+import '../provider/cart_provider.dart';
 
 class MealDetailScreen extends StatelessWidget {
   final String? id;
@@ -11,6 +14,9 @@ class MealDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ApiProvider provider=Provider.of(context,listen: false);
     provider.fetchmealById(id??"0");
+
+    CartProvider cartProvider = Provider.of(context,listen: false);
+
     return MaterialApp(
       home: Scaffold(
         extendBodyBehindAppBar: true,
@@ -59,47 +65,56 @@ class MealDetailScreen extends StatelessWidget {
                               mainAxisSize: MainAxisSize.max,
 
                               children: [
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.circular(5.0)
-                                  ),
-                                  child: const Icon(Icons.remove,color: Colors.white,),
-                                ),
-                                Container(
+                                GestureDetector(
+                                  child: Container(
                                     width: 40,
                                     height: 40,
-                                    child: const Center(child: Text('1',
-                                      style: TextStyle(
-                                          fontSize: 16
-                                      ),))
-                                ),
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.circular(5.0)
+                                    decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.circular(5.0)
+                                    ),
+                                    child: const Icon(Icons.remove,color: Colors.white,),
                                   ),
-                                  child: const Icon(Icons.add,color: Colors.white,),
+                                  onTap: () => cartProvider.removeQty(1),
+                                ),
+                               Consumer<CartProvider>(builder: (context, value1, child) => SizedBox(
+                                   width: 40,
+                                   height: 40,
+                                   child: Center(
+                                       child: Text('${value1.qty}',
+                                         style: const TextStyle(
+                                             fontSize: 16
+                                         ),
+                                       )
+                                   )
+                               ) ,),
+                                GestureDetector(
+                                  child: Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.circular(5.0)
+                                    ),
+                                    child: const Icon(Icons.add,color: Colors.white,),
+                                  ),
+                                  onTap: () => cartProvider.addQty(1),
                                 ),
                                 const Spacer(),
                                 FilledButton(
-                                    onPressed: () => print('Pressed'),
+                                  onPressed: () => cartProvider.addToCart(Cart(value.mealById!.first, cartProvider.qty)),
                                   style: FilledButton.styleFrom(
-                                    backgroundColor: Colors.red,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5.0)
-                                    )
+                                      backgroundColor: Colors.red,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(5.0)
+                                      )
                                   ),
-                                    child: const Text('Add to Cart',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white
-                                      ),
+                                  child: const Text('Add to Cart',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white
                                     ),
+                                  ),
                                 )
                               ],
                             )

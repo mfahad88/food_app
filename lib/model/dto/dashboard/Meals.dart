@@ -106,7 +106,8 @@ class Meals {
       String? strSource, 
       dynamic strImageSource, 
       dynamic strCreativeCommonsConfirmed, 
-      dynamic dateModified,}){
+      dynamic dateModified,
+  int? qty}){
     _idMeal = idMeal;
     _strMeal = strMeal;
     _strDrinkAlternate = strDrinkAlternate;
@@ -160,6 +161,7 @@ class Meals {
     _strImageSource = strImageSource;
     _strCreativeCommonsConfirmed = strCreativeCommonsConfirmed;
     _dateModified = dateModified;
+    _qty=qty;
 }
 
   Meals.fromJson(dynamic json) {
@@ -216,6 +218,7 @@ class Meals {
     _strImageSource = json['strImageSource'];
     _strCreativeCommonsConfirmed = json['strCreativeCommonsConfirmed'];
     _dateModified = json['dateModified'];
+    _qty = 0;
   }
   String? _idMeal;
   String? _strMeal;
@@ -270,6 +273,7 @@ class Meals {
   dynamic _strImageSource;
   dynamic _strCreativeCommonsConfirmed;
   dynamic _dateModified;
+  int? _qty;
 
   String? get idMeal => _idMeal;
   String? get strMeal => _strMeal;
@@ -324,6 +328,7 @@ class Meals {
   dynamic get strImageSource => _strImageSource;
   dynamic get strCreativeCommonsConfirmed => _strCreativeCommonsConfirmed;
   dynamic get dateModified => _dateModified;
+  int? get qty=>_qty;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

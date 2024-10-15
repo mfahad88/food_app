@@ -15,6 +15,9 @@ class MealListScreen extends StatelessWidget {
     provider.fetchmealByCategory(category);
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back)),
+        ),
         body: SafeArea(
           child: Consumer<ApiProvider>(
             builder: (BuildContext context, ApiProvider value, Widget? child) {

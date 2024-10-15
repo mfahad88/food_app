@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/provider/home_provider.dart';
 import 'package:food_app/screen/dashboard_screen.dart';
+import 'package:food_app/screen/landing_screen.dart';
 import 'package:food_app/widget/label_text_field.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class SigninScreen extends StatelessWidget {
             const Gap(20.0),
             FilledButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => DashboardScreen(),));
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LandingScreen(),));
                 },
                 child:const Row(
                   mainAxisAlignment: MainAxisAlignment.center,

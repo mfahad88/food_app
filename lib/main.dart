@@ -4,6 +4,8 @@ import 'package:food_app/provider/home_provider.dart';
 import 'package:food_app/screen/home_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'provider/cart_provider.dart';
+
 void main() {
   runApp(
     /// Providers are above [MyApp] instead of inside it, so that tests
@@ -12,6 +14,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(create: (_) => ApiProvider()),
+        ChangeNotifierProvider(create: (_) =>CartProvider()),
       ],
       child: const MyApp(),
     ),
