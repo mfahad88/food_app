@@ -18,19 +18,11 @@ class DashboardScreen extends StatelessWidget {
     provider.fetchRandomFood();
     return MaterialApp(
       home: Scaffold(
-        body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Consumer<ApiProvider>(
-                builder: (context, value, child) => value.isLoading? const Center(child: CircularProgressIndicator(),):SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Autocomplete<String>(
-                         /* optionsViewBuilder: (context, onSelected, options)
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Autocomplete<String>(
+            /* optionsViewBuilder: (context, onSelected, options)
                           => ListView.builder(
                             itemCount: options.toList().length,
                             itemBuilder: (context, index) => Container(
@@ -49,33 +41,46 @@ class DashboardScreen extends StatelessWidget {
                             ),
 
                           ),*/
-                          optionsBuilder: (textEditingValue) {
-                          if(textEditingValue.text == '') {
-                            return const Iterable.empty();
-                          }else{
-                            provider.fetchsearchMeals(textEditingValue.text);
+            optionsBuilder: (textEditingValue) {
+              if(textEditingValue.text == '') {
+                return const Iterable.empty();
+              }else{
+                provider.fetchsearchMeals(textEditingValue.text);
 
-                           return provider.searchMeals!.map((e) => e.strMeal!,).toList();
-                          }
-                        },
-                        fieldViewBuilder: (context, textEditingController, focusNode, onSubmitted) {
-                          return TextField(
+                return provider.searchMeals!.map((e) => e.strMeal!,).toList();
+              }
+            },
+            fieldViewBuilder: (context, textEditingController, focusNode, onSubmitted) {
+              return TextField(
 
-                            controller: textEditingController,
-                            focusNode: focusNode,
-                            decoration: InputDecoration(
-                              suffixIcon: IconButton(onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => MealDetailScreen(id: provider.searchMeals?.where((element) => element.strMeal==textEditingController.text,).first.idMeal),));
+                controller: textEditingController,
+                focusNode: focusNode,
+                decoration: InputDecoration(
+                    suffixIcon: IconButton(onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MealDetailScreen(id: provider.searchMeals?.where((element) => element.strMeal==textEditingController.text,).first.idMeal),));
 
-                              }, icon: const Icon(Icons.search)),
-                              border: const OutlineInputBorder(),
-                              hintText: 'Search any meal'
-                            ),
-                          );
-                        },
-                        onSelected: (option) => Navigator.of(context).push(MaterialPageRoute(builder: (context) => MealDetailScreen(id: provider.searchMeals?.where((element) => element.strMeal==option,).first.idMeal),)),
-                        ),
-                        const Gap(20.0),
+                    }, icon: const Icon(Icons.search)),
+                    border: const OutlineInputBorder(),
+                    hintText: 'Search any meal'
+                ),
+              );
+            },
+            onSelected: (option) => Navigator.of(context).push(MaterialPageRoute(builder: (context) => MealDetailScreen(id: provider.searchMeals?.where((element) => element.strMeal==option,).first.idMeal),)),
+          ),
+        ),
+        body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Consumer<ApiProvider>(
+                builder: (context, value, child) => value.isLoading? const Center(child: CircularProgressIndicator(),):SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+
+                        const Gap(10.0),
                         const Text('Categories',style: TextStyle(
                           fontSize: 24,
                           color: Colors.black54,
